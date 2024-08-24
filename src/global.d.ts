@@ -6,6 +6,7 @@ declare global {
   const GIPHY_API_KEY: string;
   const UNSPLASH_API_KEY: string;
   const VERSION: string;
-
+  const APININJA_API_KEY: string;
+  
   const browser: Browser;
 }

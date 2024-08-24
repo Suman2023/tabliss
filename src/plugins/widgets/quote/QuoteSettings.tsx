@@ -19,11 +19,11 @@ const QuoteSettings: React.FC<Props> = ({ data = defaultData, setData }) => (
     <p>
       Powered by{" "}
       <a
-        href="https://theysaidso.com/"
+        href="https://api-ninjas.com"
         target="_blank"
         rel="noopener noreferrer"
       >
-        They Said So
+        API Ninjas
       </a>
     </p>
     <h5>Hourly Quotes</h5>

@@ -20,7 +20,10 @@ async function getDeveloperExcuse() {
 // Get quote of the day
 async function getQuoteOfTheDay(category?: string) {
   const res = await fetch(
-    "https://quotes.rest/qod.json" + (category ? `?category=${category}` : ""),
+    "https://api.api-ninjas.com/v1/quotes" + (category ? `?category=${category}` : ""),
+    {
+      headers: {'X-Api-Key': APININJA_API_KEY}
+    }
   );
   const body = await res.json();
 
@@ -33,44 +36,11 @@ async function getQuoteOfTheDay(category?: string) {
 
   if (
     body &&
-    body.contents &&
-    body.contents.quotes &&
-    body.contents.quotes[0]
+    body.length == 1
   ) {
     return {
-      author: body.contents.quotes[0].author,
-      quote: body.contents.quotes[0].quote,
-    };
-  }
-
-  return {
-    author: null,
-    quote: null,
-  };
-}
-
-// Get bible verse of the day
-async function getBibleVerse() {
-  const res = await fetch("https://quotes.rest/bible/vod.json");
-
-  const body = await res.json();
-
-  if (res.status === 429) {
-    return {
-      author: body.error.message.split(".")[1] + ".",
-      quote: "Too many requests this hour.",
-    };
-  }
-
-  if (body && body.contents) {
-    return {
-      author:
-        body.contents.book +
-        " " +
-        body.contents.chapter +
-        ":" +
-        body.contents.number,
-      quote: body.contents.verse,
+      author: body[0].author,
+      quote: body[0].quote,
     };
   }
 
@@ -89,9 +59,7 @@ export async function getQuote(
   const data =
     category === "developerexcuses"
       ? await getDeveloperExcuse()
-      : category === "bible"
-        ? await getBibleVerse()
-        : await getQuoteOfTheDay(category);
+      : await getQuoteOfTheDay(category);
 
   loader.pop();
 
